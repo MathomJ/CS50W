@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% for list in list_of_listings %}
+    <center>
+        <div class="card" style="width: 22rem;">
+            <img src="{{ list.imageUrl }}" class="card-img-top" alt="{{ list.description }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ list.title }}</h5>
+                <p class="card-text">{{ list.description }}</p>
+                <form action="{% url 'item_page' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ list.title }}" name="item_name">
+                    <button type="submit" class="btn btn-primary">View Item</a>
+                </form>
+                
+            </div>
+        </div>
+        <br>
+    </center>
+    {% endfor %}
+{% endblock %}

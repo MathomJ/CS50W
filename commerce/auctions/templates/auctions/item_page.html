@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<center>
+<div style="width:600px">
+<center>
+    <h2>{{ list.title }}</h2>
+    <br>
+    <img src="{{ list.imageUrl }}"  alt="{{ list.description }}" width="350" height="350">
+    <br><br>
+    <p>{{ list.description }}</p>
+    <br>
+    <br>
+    <p>Current price: <b>${{ list.price }}</b></p>
+    <br>
+    {% if user.is_authenticated %}
+        {% if not isListingInWatchlist %}
+            <form action="{% url 'watchlist' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="post_title" value="{{ list.title }}">
+                <button type="submit" class="btn btn-primary">Add To Watchlist</button>
+            </form>
+        {% else %}
+            <form action="{% url 'watchlist-rm' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="post_title" value="{{ list.title }}">
+                <button type="submit" class="btn btn-danger">Remove From Watchlist</button>
+            </form>
+        {% endif %}
+        <br>
+        <form action="{% url 'new-bid' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="title" value="{{ list.title }}">
+            <input name="new_bid" type="number" step=".01" placeholder="Bid">
+            <button type="submit" class="btn btn-success">Place Bid</button>
+        </form>
+    {% endif %}
+    <br>
+</center>
+</div>
+</center>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1>Watchlist</h1>
+
+    {% for listing in list %}
+            <center>
+                <div class="card" style="width: 22rem;">
+                    <img src="{{ listing.imageUrl }}" class="card-img-top" alt="{{ listing.description }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ listing.title }}</h5>
+                        <p class="card-text">{{ listing.description }}</p>
+                        <form action="{% url 'item_page' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ listing.title }}" name="item_name">
+                            <button type="submit" class="btn btn-primary">View Item</a>
+                        </form>
+                        
+                    </div>
+                </div>
+                <br>
+            </center>
+    {% endfor %}
+{% endblock %}
